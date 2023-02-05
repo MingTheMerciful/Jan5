@@ -1,0 +1,17 @@
+import requests
+from bs4 import BeautifulSoup
+
+shoe_size = input("Enter shoe size: ")
+
+url = f"https://www.ebay.com/sch/i.html?_nkw=nike+air+max+speed+turf+size:{shoe_size}"
+
+response = requests.get(url)
+soup = BeautifulSoup(response.text, "html.parser")
+
+items = soup.find_all("li", {"class": "s-item"})
+for item in items:
+    title = item.find("h3").text
+    price = item.find("span", {"class": "s-price"}).text
+    availability = item.find("span", {"class": "s-item__status"}).text
+    print(f"{title} - {price} - {availability}")
+
